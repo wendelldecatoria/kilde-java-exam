@@ -42,7 +42,7 @@ public class InvestmentService {
 
     public Investment addInvestment(InvestmentRequest investmentRequest) throws Exception {
         Tranch tranch = tranchRepository.findById(investmentRequest.getTranchId())
-                .orElseThrow(() -> new Exception("Tranch not found exception."));
+                .orElseThrow(() -> new Exception("Tranch not found."));
 
         // Validate Tranch Status
         if (tranch.getStatus() != TranchStatus.OPEN) {
@@ -81,6 +81,4 @@ public class InvestmentService {
 
         return investmentRepository.save(investment); // only saved if both exist
     }
-
-    // TODO: implement update and delete investment
 }

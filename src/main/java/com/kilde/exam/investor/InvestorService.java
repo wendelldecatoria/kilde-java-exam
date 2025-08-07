@@ -29,8 +29,19 @@ public class InvestorService {
         return investor;
     }
 
-    public Investor updateInvestor(Investor investor) {
-        investorRepository.save(investor);
-        return investor;
+    public Investor updateInvestor(UUID id, InvestorRequest investorRequest) throws Exception {
+        try {
+            Investor investor = investorRepository.findById(id).orElseThrow(() -> new Exception("Investor not found."));
+
+            System.out.println(investorRequest.getName());
+            System.out.println(investorRequest.getEmail());
+            investor.setName(investorRequest.getName());
+            investor.setEmail(investorRequest.getEmail());
+
+            investorRepository.save(investor);
+            return investor;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -48,10 +48,10 @@ public class TranchController {
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="/tranches/{id}")
-    public ResponseEntity<Object> updateTranch(@RequestBody Tranch tranch) {
+    public ResponseEntity<Object> updateTranch(@RequestBody TranchRequest tranchRequest, @PathVariable UUID id) {
         try {
-            tranchService.updateTranch(tranch);
-            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", tranch);
+            tranchService.updateTranch(id, tranchRequest);
+            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", tranchRequest);
         } catch (Exception e) {
             return RespondError.generateResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }

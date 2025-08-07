@@ -48,6 +48,4 @@ public class InvestmentController {
             return RespondError.generateResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }
     }
-
-    // TODO: implement update and delete investment
 }

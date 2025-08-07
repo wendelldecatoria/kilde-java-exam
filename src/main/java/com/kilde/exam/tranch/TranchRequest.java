@@ -1,23 +1,9 @@
 package com.kilde.exam.tranch;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.kilde.exam.audit.Auditable;
-import com.kilde.exam.investment.Investment;
-import jakarta.persistence.*;
-import org.hibernate.annotations.UuidGenerator;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-@Entity
-public class Tranch extends Auditable {
-
-    @Id
-    @GeneratedValue
-    @UuidGenerator  // NEW: Hibernate 6.5+ way to generate UUIDs
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+public class TranchRequest {
     private String name;
     private Float annualInterestRate;
     private Integer duration;
@@ -28,37 +14,17 @@ public class Tranch extends Auditable {
     @Enumerated(EnumType.STRING)
     private TranchStatus status;
 
-    @OneToMany(mappedBy = "tranch", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Investment> investments = new ArrayList<>();
-
-    public Tranch(
-            String name,
-            Float annual_interest_rate,
-            Integer duration,
-            Float min_investment,
-            Float max_investment,
-            Float max_per_investor,
-            TranchStatus status) {
+    public TranchRequest(String name, Float annualInterestRate, Integer duration, Float minInvestment, Float maxInvestment, Float maxPerInvestor, TranchStatus status) {
         this.name = name;
-        this.annualInterestRate = annual_interest_rate;
+        this.annualInterestRate = annualInterestRate;
         this.duration = duration;
-        this.minInvestment = min_investment;
-        this.maxInvestment = max_investment;
-        this.maxPerInvestor = max_per_investor;
+        this.minInvestment = minInvestment;
+        this.maxInvestment = maxInvestment;
+        this.maxPerInvestor = maxPerInvestor;
         this.status = status;
     }
 
-    public Tranch() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public TranchRequest() {}
 
     public String getName() {
         return name;
@@ -114,13 +80,5 @@ public class Tranch extends Auditable {
 
     public void setStatus(TranchStatus status) {
         this.status = status;
-    }
-
-    public List<Investment> getInvestments() {
-        return investments;
-    }
-
-    public void setInvestments(List<Investment> investments) {
-        this.investments = investments;
     }
 }

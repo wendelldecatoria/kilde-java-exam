@@ -51,9 +51,9 @@ public class InvestorController {
     }
 
     @RequestMapping(method=RequestMethod.PUT, value="/investors/{id}")
-    public ResponseEntity<Object> updateInvestor(@RequestBody Investor investor, @PathVariable UUID id) {
+    public ResponseEntity<Object> updateInvestor(@RequestBody InvestorRequest investorRequest, @PathVariable UUID id) {
         try {
-            investorService.updateInvestor(investor);
+            Investor investor = investorService.updateInvestor(id, investorRequest);
             return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", investor);
         } catch (Exception e) {
             return RespondError.generateResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());

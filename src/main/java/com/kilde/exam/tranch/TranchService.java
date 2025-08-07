@@ -25,12 +25,29 @@ public class TranchService {
     }
 
     public Tranch addTranch(Tranch tranch) {
-        tranchRepository.save(tranch);
-        return tranch;
+        try {
+            tranchRepository.save(tranch);
+            return tranch;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public Tranch updateTranch(Tranch tranch) {
-        tranchRepository.save(tranch);
-        return tranch;
+    public Tranch updateTranch(UUID id, TranchRequest tranchRequest) throws Exception {
+        try {
+            Tranch tranch = tranchRepository.findById(id).orElseThrow(() -> new Exception("Tranch not found."));
+
+            tranch.setName(tranchRequest.getName());
+            tranch.setAnnualInterestRate(tranchRequest.getAnnualInterestRate());
+            tranch.setDuration(tranchRequest.getDuration());
+            tranch.setMinInvestment(tranchRequest.getMinInvestment());
+            tranch.setMaxInvestment(tranchRequest.getMaxInvestment());
+            tranch.setMaxPerInvestor(tranchRequest.getMaxPerInvestor());
+
+            tranchRepository.save(tranch);
+            return tranch;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
