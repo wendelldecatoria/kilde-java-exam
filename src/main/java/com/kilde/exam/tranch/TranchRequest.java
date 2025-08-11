@@ -3,7 +3,11 @@ package com.kilde.exam.tranch;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
+import java.util.UUID;
+
 public class TranchRequest {
+
+    private UUID bondId;
     private String name;
     private Float annualInterestRate;
     private Integer duration;
@@ -14,7 +18,8 @@ public class TranchRequest {
     @Enumerated(EnumType.STRING)
     private TranchStatus status;
 
-    public TranchRequest(String name, Float annualInterestRate, Integer duration, Float minInvestment, Float maxInvestment, Float maxPerInvestor, TranchStatus status) {
+    public TranchRequest(UUID bondId, String name, Float annualInterestRate, Integer duration, Float minInvestment, Float maxInvestment, Float maxPerInvestor, TranchStatus status) {
+        this.bondId = bondId;
         this.name = name;
         this.annualInterestRate = annualInterestRate;
         this.duration = duration;
@@ -80,5 +85,13 @@ public class TranchRequest {
 
     public void setStatus(TranchStatus status) {
         this.status = status;
+    }
+
+    public UUID getBondId() {
+        return bondId;
+    }
+
+    public void setBondId(UUID bondId) {
+        this.bondId = bondId;
     }
 }

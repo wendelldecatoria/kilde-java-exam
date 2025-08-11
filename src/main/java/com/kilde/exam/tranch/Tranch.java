@@ -1,7 +1,9 @@
 package com.kilde.exam.tranch;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kilde.exam.audit.Auditable;
+import com.kilde.exam.bond.Bond;
 import com.kilde.exam.investment.Investment;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -32,7 +34,13 @@ public class Tranch extends Auditable {
     @JsonManagedReference
     private List<Investment> investments = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "bond_id")
+    @JsonBackReference
+    private Bond bond;
+
     public Tranch(
+            Bond bond,
             String name,
             Float annual_interest_rate,
             Integer duration,
@@ -40,6 +48,7 @@ public class Tranch extends Auditable {
             Float max_investment,
             Float max_per_investor,
             TranchStatus status) {
+        this.bond = bond;
         this.name = name;
         this.annualInterestRate = annual_interest_rate;
         this.duration = duration;
@@ -122,5 +131,13 @@ public class Tranch extends Auditable {
 
     public void setInvestments(List<Investment> investments) {
         this.investments = investments;
+    }
+
+    public Bond getBond() {
+        return bond;
+    }
+
+    public void setBond(Bond bond) {
+        this.bond = bond;
     }
 }

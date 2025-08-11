@@ -41,10 +41,10 @@ public class InvestorController {
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/investors")
-    public ResponseEntity<Object> addInvestor(@RequestBody Investor investor) {
+    public ResponseEntity<Object> createInvestor(@RequestBody InvestorRequest investorRequest) {
         try {
-            investorService.addInvestor(investor);
-            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", investor);
+            investorService.addInvestor(investorRequest);
+            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", investorRequest);
         } catch (Exception e) {
             return RespondError.generateResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }

@@ -1,5 +1,7 @@
 package com.kilde.exam.tranch;
 
+import com.kilde.exam.bond.Bond;
+import com.kilde.exam.bond.BondRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class TranchService {
     @Autowired
     private TranchRepository tranchRepository;
 
+    @Autowired
+    private BondRepository bondRepository;
+
     public List<Tranch> getAllTranches() {
         List<Tranch> tranches = new ArrayList<>();
         tranchRepository.findAll().forEach(tranches::add);
@@ -24,10 +29,21 @@ public class TranchService {
         return tranchRepository.findById(id);
     }
 
-    public Tranch addTranch(Tranch tranch) {
+    public Tranch addTranch(TranchRequest tranchRequest) {
         try {
-            tranchRepository.save(tranch);
-            return tranch;
+            Bond bond = bondRepository.findById(tranchRequest.getBondId())
+                    .orElseThrow(() -> new Exception("Bond not found."));
+
+            Tranch tranch = new Tranch();
+            tranch.setBond(bond);
+            tranch.setName(tranchRequest.getName());
+            tranch.setAnnualInterestRate(tranchRequest.getAnnualInterestRate());
+            tranch.setDuration(tranchRequest.getDuration());
+            tranch.setMinInvestment(tranchRequest.getMinInvestment());
+            tranch.setMaxInvestment(tranchRequest.getMaxInvestment());
+            tranch.setMaxPerInvestor(tranchRequest.getMaxPerInvestor());
+            tranch.setStatus(TranchStatus.OPEN);
+            return tranchRepository.save(tranch);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -43,9 +59,9 @@ public class TranchService {
             tranch.setMinInvestment(tranchRequest.getMinInvestment());
             tranch.setMaxInvestment(tranchRequest.getMaxInvestment());
             tranch.setMaxPerInvestor(tranchRequest.getMaxPerInvestor());
+            tranch.setStatus(tranchRequest.getStatus());
 
-            tranchRepository.save(tranch);
-            return tranch;
+            return tranchRepository.save(tranch);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

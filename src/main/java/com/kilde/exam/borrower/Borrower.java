@@ -1,7 +1,8 @@
-package com.kilde.exam.investor;
+package com.kilde.exam.borrower;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kilde.exam.audit.Auditable;
+import com.kilde.exam.bond.Bond;
 import com.kilde.exam.investment.Investment;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Investor extends Auditable {
+public class Borrower extends Auditable {
 
     @Id
     @GeneratedValue
@@ -21,17 +22,16 @@ public class Investor extends Auditable {
     private String name;
     private String email;
 
-    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Investment> investments = new ArrayList<>();
+    private List<Bond>  bonds = new ArrayList<>();
 
-    public Investor(String name, String email) {
+    public Borrower(String name, String email) {
         this.name = name;
         this.email = email;
     }
 
-    public Investor() {
-    }
+    public Borrower() {}
 
     public UUID getId() {
         return id;
@@ -57,11 +57,11 @@ public class Investor extends Auditable {
         this.email = email;
     }
 
-    public List<Investment> getInvestments() {
-        return investments;
+    public List<Bond> getBonds() {
+        return bonds;
     }
 
-    public void setInvestments(List<Investment> investments) {
-        this.investments = investments;
+    public void setBonds(List<Bond> bonds) {
+        this.bonds = bonds;
     }
 }

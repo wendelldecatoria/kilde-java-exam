@@ -38,10 +38,10 @@ public class TranchController {
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/tranches")
-    public ResponseEntity<Object> addTranch(@RequestBody Tranch tranch) {
+    public ResponseEntity<Object> addTranch(@RequestBody TranchRequest tranchRequest) {
         try {
-            tranchService.addTranch(tranch);
-            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", tranch);
+            tranchService.addTranch(tranchRequest);
+            return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", tranchRequest);
         } catch (Exception e) {
             return RespondError.generateResponse(HttpStatus.BAD_REQUEST, false, e.getMessage());
         }

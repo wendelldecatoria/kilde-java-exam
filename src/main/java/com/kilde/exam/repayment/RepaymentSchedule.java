@@ -14,7 +14,7 @@ public class RepaymentSchedule extends Auditable {
 
     @Id
     @GeneratedValue
-    @UuidGenerator  // NEW: Hibernate 6.5+ way to generate UUIDs
+    @UuidGenerator
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 

@@ -40,7 +40,7 @@ public class InvestmentController {
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/investments")
-    public ResponseEntity<Object> addInvestment(@RequestBody InvestmentRequest investmentRequest) {
+    public ResponseEntity<Object> createInvestment(@RequestBody InvestmentRequest investmentRequest) {
         try {
             Investment investment = investmentService.addInvestment(investmentRequest);
             return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", investment);

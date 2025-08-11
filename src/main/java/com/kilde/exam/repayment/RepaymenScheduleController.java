@@ -39,7 +39,7 @@ public class RepaymenScheduleController {
     }
 
     @RequestMapping(method= RequestMethod.POST, value="/repayment-schedules/process")
-    public ResponseEntity<Object> addRepaymentSchedule(@RequestBody RepaymentScheduleRequest repaymentScheduleRequest) throws Exception {
+    public ResponseEntity<Object> createRepaymentSchedule(@RequestBody RepaymentScheduleRequest repaymentScheduleRequest) throws Exception {
         try {
             List<RepaymentSchedule> repaymentSchedule = repaymentScheduleService.processRepayment(repaymentScheduleRequest.getInvestmentId());
             return RespondSuccess.generateResponse(HttpStatus.OK, true, "OK", repaymentSchedule);
